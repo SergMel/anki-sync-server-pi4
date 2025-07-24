@@ -6,12 +6,20 @@ on:
   schedule:
     - cron: '0 3 * * *'  # Daily rebuild
 
+env:
+  IMAGE_NAME: yourusername/anki-sync-server
+  DATE_TAG: $(date +'%Y.%m.%d')
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       
+      - name: Get current date
+        id: date
+        run: echo "DATE=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
         
@@ -31,5 +39,5 @@ jobs:
           platforms: linux/arm64
           push: true
           tags: |
-            yourusername/anki-sync-server:pi4-latest
-            yourusername/anki-sync-server:pi4-$(date +'%Y.%m.%d')
+            ${{ env.IMAGE_NAME }}:pi4-latest
+            ${{ env.IMAGE_NAME }}:pi4-${{ env.DATE }}
