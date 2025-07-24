@@ -1,0 +1,18 @@
+{
+  "extends": [
+    "config:recommended",
+    "docker:enableMajor"
+  ],
+  "packageRules": [
+    {
+      "matchManagers": ["dockerfile"],
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "automerge": true
+    },
+    {
+      "matchPackageNames": ["rust"],
+      "versioning": "rust"
+    }
+  ],
+  "schedule": ["before 5am on Monday"]
+}
